@@ -6,3 +6,8 @@ setup/ENV_OK
 
 # Log files
 logs/
+
+# pyinstaller
+build/
+dist/
+epidem.spec
