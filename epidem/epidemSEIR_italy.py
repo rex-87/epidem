@@ -34,7 +34,7 @@ try:
 	t_size = 1000
 	tt = np.array(range(t_size))
 
-	italy_confirmed = [
+	italy_cases = [
 		1.0,
 		2.6,
 		3.8,
@@ -69,12 +69,72 @@ try:
 		1143.4,
 		1229.5,
 		1332.0,
-		1430.0,
-		1529.0,
+		1429.7,
+		1528.5,
+		1614.7,
+		1681.6,
+		1748.6,
+		1827.7,
+		1904.8,
+		1980.6,
+		2060.0,
+		2131.4,
+		2190.9,
+		2241.1,
 	]
-	italy_confirmed += int(t_size - len(italy_confirmed))*[0]
+	italy_cases += int(t_size - len(italy_cases))*[0]
 
-	D = np.zeros_like(tt, dtype = np.float); D[0] = 0
+	italy_deaths = [
+		0.03,
+		0.05,
+		0.12,
+		0.17,
+		0.20,
+		0.28,
+		0.35,
+		0.48,
+		0.56,
+		0.86,
+		1.31,
+		1.77,
+		2.45,
+		3.26,
+		3.85,
+		6.05,
+		7.65,
+		10.43,
+		13.67,
+		13.67,
+		20.93,
+		23.82,
+		29.90,
+		35.67,
+		41.37,
+		49.22,
+		56.28,
+		66.64,
+		79.75,
+		90.51,
+		100.45,
+		112.73,
+		124.02,
+		135.79,
+		150.98,
+		165.67,
+		178.17,
+		191.59,
+		205.42,
+		217.44,
+		230.00,
+		242.66,
+		253.92,
+		262.60,
+		273.11,
+		283.09,
+	]
+	italy_deaths += int(t_size - len(italy_deaths))*[0]
+
+	D = np.zeros_like(tt, dtype = np.float); D[0] = 0.1
 	E = np.zeros_like(tt, dtype = np.float); E[0] = 2
 	I = np.zeros_like(tt, dtype = np.float); I[0] = 1
 	R = np.zeros_like(tt, dtype = np.float); R[0] = 0
@@ -129,13 +189,14 @@ try:
 	l_R, = plot_f(tt, R, label='Rétablis'    , color='green')
 	l_D, = plot_f(tt, D, label='Morts'       , color='black')
 	l_C, = plot_f(tt, I+R,label='Confirmés'  , color='purple')
-	l_it, = plot_f(tt, italy_confirmed, '.', label='Italy', color='purple')
+	l_italy_cases,  = plot_f(tt, italy_cases, '.', label='Italy', color='purple')
+	l_italy_deaths, = plot_f(tt, italy_deaths, '.', label='Italy', color='black')
 	
 	main_ax = plt.gca()
 	main_ax.set_xlim([0, 400])
 	main_ax.set_ylim([1, N])
 	plt.legend()
-	plt.title('Modèle SEIR(D) - Population [%]')
+	plt.title('Modèle SEIR(D) - Italy Population [per million]')
 	
 	axcolor = 'lightgoldenrodyellow'	
 	ax_hi_t = plt.axes([0.30, 0.22, 0.55, 0.03], facecolor=axcolor)
@@ -146,10 +207,10 @@ try:
 	ax_K_RS = plt.axes([0.30, 0.01, 0.55, 0.03], facecolor=axcolor)
 	
 	s_hi_t = Slider(ax_hi_t, 'Ajustement du temps'      , 1, t_size, valinit = 400  , valfmt='%d', valstep = 1)
-	s_K_SE = Slider(ax_K_SE, 'Susceptibles -> Exposés ' , 0, 5.00, valinit = 1.13, valfmt='%1.4f')
+	s_K_SE = Slider(ax_K_SE, 'Susceptibles -> Exposés ' , 0, 5.00, valinit = 1.31, valfmt='%1.4f')
 	s_K_EI = Slider(ax_K_EI, 'Exposés -> Infectés'      , 0, 0.5, valinit = 0.18, valfmt='%1.4f')
-	s_K_IR = Slider(ax_K_IR, 'Infectés -> Rétablis'     , 0, 0.5, valinit = 1/14, valfmt='%1.4f')
-	s_K_ID = Slider(ax_K_ID, 'Infectés -> Morts'        , 0, 0.05, valinit = 0.016, valfmt='%1.4f')
+	s_K_IR = Slider(ax_K_IR, 'Infectés -> Rétablis'     , 0, 0.5, valinit = 0.12, valfmt='%1.4f')
+	s_K_ID = Slider(ax_K_ID, 'Infectés -> Morts'        , 0, 0.05, valinit = 0.018, valfmt='%1.4f')
 	s_K_RS = Slider(ax_K_RS, 'Rétablis -> Susceptibles' , 0, 0.01, valinit = 0.000, valfmt='%1.4f')
 	
 	update(0)
